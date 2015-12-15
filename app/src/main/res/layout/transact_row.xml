@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:longClickable="true"
+    >
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/icon_field"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="false"
+        android:src="@drawable/ic_outgo"
+        android:padding="5dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/sum_field"
+        android:lines="1"
+        android:autoText="false"
+        android:text="20000"
+        android:textSize="21dp"
+        android:textColor="#1ba671"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/icon_field" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Карта"
+        android:id="@+id/wallet_field"
+        android:textStyle="bold"
+        android:textSize="16dp"
+        android:paddingTop="5dp"
+        android:contextClickable="false"
+        android:textColor="#000000"
+        android:layout_marginRight="5dp"
+        android:layout_below="@+id/category_field"
+        android:layout_alignParentEnd="true"
+        android:textIsSelectable="false" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Продукты/Еда вне дома/Универ"
+        android:id="@+id/category_field"
+        android:textSize="14dp"
+        android:textColor="#537ef6"
+        android:layout_marginRight="5dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="3dp" />
+
+</RelativeLayout>

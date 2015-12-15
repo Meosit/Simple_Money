@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Simple Money</string>
+    <string name="settings_label">Настройки</string>
+    <string name="transaction_section_header">Транзакции</string>
+    <string name="wallet_section_header">Счета</string>
+    <string name="category_section_header">Категории</string>
+    <string name="add_btn">Добавить</string>
+    <string name="add_act_activity_label">Новая транзакция</string>
+    <string name="add_wal_activity_label">Новый счёт</string>
+    <string name="title_activity_wallet_add">WalletAddActivity</string>
+    <string-array name="context_menu_items">
+        <item>Изменить</item>
+        <item>Удалить</item>
+    </string-array>
+</resources>

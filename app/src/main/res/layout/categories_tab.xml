@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/cat_filter_group"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="2dp"
+            android:id="@+id/textView4"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/colorAccent" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Категории доходов"
+            android:id="@+id/cat_income_filter"
+            android:checked="false" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Категории расходов"
+            android:id="@+id/cat_outgo_filter"
+            android:checked="true" />
+
+    </RadioGroup>
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/categoryListView"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView5" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:text="New Text"
+        android:id="@+id/textView5"
+        android:layout_below="@+id/cat_filter_group"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:background="@color/colorPrimary" />
+
+</RelativeLayout>

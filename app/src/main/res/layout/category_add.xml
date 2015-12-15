@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_root"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:windowSoftInputMode="stateVisible">
+
+    <TextView
+        android:id="@+id/category_add_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Введите имя категории: "
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/category_input_text"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/cat_type_group">
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Категория доходов"
+            android:id="@+id/cat_income_rbtn" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Категория расходов"
+            android:id="@+id/cat_outgo_rbtn"
+            android:checked="true" />
+
+    </RadioGroup>
+
+    <EditText
+        android:id="@+id/category_input_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/category_add_header"
+        android:layout_alignParentEnd="true">
+        <requestFocus />
+    </EditText>
+
+</RelativeLayout>
