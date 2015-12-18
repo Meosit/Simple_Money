@@ -3,6 +3,7 @@ package mksn.simphony_v2.logics;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Objects;
 
 /**
  * Created by Mike on 10.11.2015
@@ -129,11 +130,13 @@ public class AllData {
     public class CustomComparator implements Comparator<Transaction> {
         @Override
         public int compare(Transaction o1, Transaction o2) {
-            return o2.getFormattedDate().compareTo(o1.getFormattedDate());
+            int oi1 = o1.getYear() * 10000 + o1.getMonth() * 100 + o1.getDay();
+            int oi2 = o2.getYear() * 10000 + o2.getMonth() * 100 + o2.getDay();
+            return oi2 - oi1;
         }
     }
 
-    public ArrayList<String> walletsToStringArr() {  // для отображения списка счетов в spinner'ах
+    public ArrayList<String> walletsToStringList() {  // для отображения списка счетов в spinner'ах
         ArrayList<String> result = new ArrayList<>();
         for (int i = 0; i < wallets.size(); i++) {
             result.add(wallets.get(i).getName());
@@ -267,7 +270,7 @@ public class AllData {
                 editedTransaction.getWallet().setSumRemainder(sum);
             }
         }
-        boolean newDate = newTransaction.getFormattedDate() != editedTransaction.getFormattedDate();
+        boolean newDate = !Objects.equals(newTransaction.getFormattedDate(), editedTransaction.getFormattedDate());
         editedTransaction.setDate(newTransaction.getFormattedDate());
         editedTransaction.setSum(newTransaction.getSum());
         editedTransaction.setTransactType(newTransaction.getType());

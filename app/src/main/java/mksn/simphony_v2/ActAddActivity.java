@@ -59,7 +59,7 @@ public class ActAddActivity extends AppCompatActivity {
         // Get reference of SpinnerView from layout/main_activity.xml
         Spinner wallet_spinner = (Spinner) findViewById(R.id.wallet_spinner);
         wallet_adapter = new ArrayAdapter<String>(getApplicationContext(),
-                android.R.layout.simple_dropdown_item_1line, data.walletsToStringArr()) {
+                android.R.layout.simple_dropdown_item_1line, data.walletsToStringList()) {
 
             @Override
             public View getDropDownView(int position, View convertView, ViewGroup parent) {

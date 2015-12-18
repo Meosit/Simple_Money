@@ -2,6 +2,7 @@ package mksn.simphony_v2.fragments;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.ContextMenu;
@@ -9,8 +10,14 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import mksn.simphony_v2.R;
 import mksn.simphony_v2.WalAddActivity;
@@ -58,6 +65,9 @@ public class WalletListFragment extends android.support.v4.app.Fragment {
             for (int i = 0; i < menuItems.length; i++) {
                 menu.add(AllData.CONTEXT_MENU_WALLETS_GROUP_ID, i, i, menuItems[i]);
             }
+            if (data.getWalletsCount() != 1) {
+                menu.add(AllData.CONTEXT_MENU_WALLETS_GROUP_ID, 2, 2, "Перенести сумму на другой счёт");
+            }
         }
     }
 
@@ -66,42 +76,147 @@ public class WalletListFragment extends android.support.v4.app.Fragment {
         if (item.getGroupId() == AllData.CONTEXT_MENU_WALLETS_GROUP_ID) {
             final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
             int menuItemIndex = item.getItemId();
-            if (menuItemIndex == 1) {
-                new AlertDialog.Builder(getContext())
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .setTitle("Удаление счёта")
-                        .setMessage("Вы уверены, что хотите удалить счёт? Все транзакции, связанные с этим счётом, будут удалены.")
-                        .setPositiveButton("Да", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                for (int i = 0; i < data.getActsCount(); ) {
-                                    if (data.getTransaction(i).getWallet() == data.getWallet(info.position)) {
-                                        mDataBase.deleteTransaction(data.getTransaction(i));
-                                        data.removeTransaction(data.getTransaction(i));
-                                    } else {
-                                        i++;
-                                    }
-                                }
-                                mDataBase.deleteWallet(data.getWallet(info.position).getId());
-                                data.removeWallet(info.position);
-                                adapter.notifyDataSetChanged();
-                            }
-                        })
-                        .setNegativeButton("Отмена", null)
-                        .show();
-            } else {
-                Intent intent = new Intent(getActivity(), WalAddActivity.class);
-                intent.putExtra("requestCode", AllData.EDIT_WALLET_REQUEST);
-                editedWalPos = info.position;
-                intent.putExtra(AllData.TAG_WAL_NAME, data.getWallet(info.position).getName());
-                intent.putExtra(AllData.TAG_SUM, data.getWallet(info.position).getSumRemainder());
-                intent.putExtra(AllData.TAG_CURR, data.getWallet(info.position).getCurrency());
-                intent.putExtra(AllData.TAG_TYPE, data.getWallet(info.position).getIconType());
-                getActivity().startActivityForResult(intent, AllData.EDIT_WALLET_REQUEST);
+            switch (menuItemIndex) {
+                case 0:
+                    editWallet(info.position);
+                    break;
+                case 1:
+                    deleteWallet(info.position);
+                    break;
+                case 2:
+                    midWalletTransfer(info.position);
+                    break;
             }
             return true;
         }
         return super.onContextItemSelected(item);
+    }
+
+    private void editWallet(final int pos) {
+        Intent intent = new Intent(getActivity(), WalAddActivity.class);
+        intent.putExtra("requestCode", AllData.EDIT_WALLET_REQUEST);
+        editedWalPos = pos;
+        intent.putExtra(AllData.TAG_WAL_NAME, data.getWallet(pos).getName());
+        intent.putExtra(AllData.TAG_SUM, data.getWallet(pos).getSumRemainder());
+        intent.putExtra(AllData.TAG_CURR, data.getWallet(pos).getCurrency());
+        intent.putExtra(AllData.TAG_TYPE, data.getWallet(pos).getIconType());
+        getActivity().startActivityForResult(intent, AllData.EDIT_WALLET_REQUEST);
+    }
+
+    private void deleteWallet(final int pos) {
+        new AlertDialog.Builder(getContext())
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("Удаление счёта")
+                .setMessage("Вы уверены, что хотите удалить счёт? Все транзакции, связанные с этим счётом, будут удалены.")
+                .setPositiveButton("Да", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        for (int i = 0; i < data.getActsCount(); ) {
+                            if (data.getTransaction(i).getWallet() == data.getWallet(pos)) {
+                                mDataBase.deleteTransaction(data.getTransaction(i));
+                                data.removeTransaction(data.getTransaction(i));
+                            } else {
+                                i++;
+                            }
+                        }
+                        mDataBase.deleteWallet(data.getWallet(pos).getId());
+                        data.removeWallet(pos);
+                        adapter.notifyDataSetChanged();
+                    }
+                })
+                .setNegativeButton("Отмена", null)
+                .show();
+    }
+
+    private void midWalletTransfer(final int pos) {
+        LayoutInflater li = LayoutInflater.from(getContext());
+        View promptsView = li.inflate(R.layout.mid_wallet_row, null);
+        android.app.AlertDialog.Builder mDialogBuilder = new android.app.AlertDialog.Builder(getContext());
+        mDialogBuilder.setView(promptsView);
+        mDialogBuilder.setView(promptsView);
+        final EditText mid_sum = (EditText) promptsView.findViewById(R.id.mid_wallet_sum);
+        final TextView mid_curr = (TextView) promptsView.findViewById(R.id.mid_wallet_curr);
+        mid_curr.setText(data.getWallet(pos).getCurrency());
+        final Spinner mid_wallet_spinner = (Spinner) promptsView.findViewById(R.id.mid_wallet_spinner);
+        final ArrayAdapter<String> category_adapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), // настройка spinner'а
+                android.R.layout.simple_dropdown_item_1line, data.walletsToStringList()) {
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                // TODO Auto-generated method stub
+                View view = super.getView(position, convertView, parent);
+                TextView text = (TextView) view.findViewById(android.R.id.text1);
+                text.setTextColor(Color.BLACK);
+                return view;
+            }
+
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                // TODO Auto-generated method stub
+                View view = super.getView(position, convertView, parent);
+                TextView text = (TextView) view.findViewById(android.R.id.text1);
+                text.setTextColor(Color.BLACK);
+                text.setTextSize(20);
+                return view;
+            }
+        };
+        mid_wallet_spinner.setAdapter(category_adapter);
+        // индекс выбранной категории (массив, потому что во внутренних
+        // классах можно использовать только финальные переменные из внешних
+        // классов, но final int изменить в ходе программы нельзя)
+        final int[] wallet_index = {0};
+        mid_wallet_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id) {
+                wallet_index[0] = position;                                   // взятие индекса выбранной категории
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // TODO Auto-generated method stub
+            }
+        });
+        //Настраиваем сообщение в диалоговом окне:
+        mDialogBuilder
+                .setCancelable(false)
+                .setPositiveButton("Переместить",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                Wallet firstEditedWallet = data.getWallet(pos);
+                                Wallet secondEditedWallet = data.getWallet(wallet_index[0]);
+                                if (pos != wallet_index[0]) {
+                                    if (firstEditedWallet.getCurrency().equals(secondEditedWallet.getCurrency())) {
+                                        firstEditedWallet.deductRemainder(Integer.parseInt(mid_sum.getText().toString()));
+                                        secondEditedWallet.addRemainder(Integer.parseInt(mid_sum.getText().toString()));
+                                        mDataBase.updateWallet(firstEditedWallet.getId(),
+                                                firstEditedWallet.getName(),
+                                                firstEditedWallet.getCurrency(),
+                                                firstEditedWallet.getSumRemainder(),
+                                                firstEditedWallet.getIconType());
+                                        mDataBase.updateWallet(secondEditedWallet.getId(),
+                                                secondEditedWallet.getName(),
+                                                secondEditedWallet.getCurrency(),
+                                                secondEditedWallet.getSumRemainder(),
+                                                secondEditedWallet.getIconType());
+                                        adapter.notifyDataSetChanged();
+                                    } else {
+                                        Toast notCurrEqualMessage = Toast.makeText(getContext(), "Нельзя переместить сумму на счёт с другой валютой", Toast.LENGTH_LONG);
+                                        notCurrEqualMessage.show();
+                                    }
+                                }
+                            }
+                        })
+                .setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        android.app.AlertDialog alertDialog = mDialogBuilder.create();
+        alertDialog.show();
+        alertDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE |
+                WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+        alertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
     }
 
     @Override
