@@ -1,4 +1,4 @@
-package mksn.simphony_v2.fragments;
+package mksn.simple_money.fragments;
 
 import android.content.DialogInterface;
 import android.graphics.Color;
@@ -20,11 +20,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import mksn.simphony_v2.R;
-import mksn.simphony_v2.adapters.CategoryListItemAdapter;
-import mksn.simphony_v2.logics.AllData;
-import mksn.simphony_v2.logics.DataBaseHelper;
-import mksn.simphony_v2.logics.Transaction;
+import mksn.simple_money.R;
+import mksn.simple_money.adapters.CategoryListItemAdapter;
+import mksn.simple_money.logics.AllData;
+import mksn.simple_money.logics.DataBaseHelper;
+import mksn.simple_money.logics.Transaction;
 
 /**
  * Created by Mike on 07.11.2015.

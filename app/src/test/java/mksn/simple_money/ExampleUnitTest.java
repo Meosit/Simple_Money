@@ -1,4 +1,4 @@
-package mksn.simphony_v2;
+package mksn.simple_money;
 
 import org.junit.Test;
 

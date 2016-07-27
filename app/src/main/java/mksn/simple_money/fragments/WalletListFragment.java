@@ -1,4 +1,4 @@
-package mksn.simphony_v2.fragments;
+package mksn.simple_money.fragments;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,12 +19,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import mksn.simphony_v2.R;
-import mksn.simphony_v2.WalAddActivity;
-import mksn.simphony_v2.adapters.WalletListItemAdapter;
-import mksn.simphony_v2.logics.AllData;
-import mksn.simphony_v2.logics.DataBaseHelper;
-import mksn.simphony_v2.logics.Wallet;
+import mksn.simple_money.R;
+import mksn.simple_money.WalAddActivity;
+import mksn.simple_money.adapters.WalletListItemAdapter;
+import mksn.simple_money.logics.AllData;
+import mksn.simple_money.logics.DataBaseHelper;
+import mksn.simple_money.logics.Wallet;
 
 /**
  * Created by Mike on 07.11.2015.
@@ -126,6 +126,12 @@ public class WalletListFragment extends android.support.v4.app.Fragment {
                 })
                 .setNegativeButton("Отмена", null)
                 .show();
+        if (getView() != null) {
+            TextView midText = (TextView) getView().findViewById(R.id.midsumText);
+            midText.setText(this.data.getMidSum());
+            TextView allText = (TextView) getView().findViewById(R.id.allsumText);
+            allText.setText(this.data.getAllSum());
+        }
     }
 
     private void midWalletTransfer(final int pos) {
@@ -234,6 +240,13 @@ public class WalletListFragment extends android.support.v4.app.Fragment {
                     editedWallet.getSumRemainder(),
                     editedWallet.getIconType());
             adapter.notifyDataSetChanged();
+
+            if (getView() != null) {
+                TextView midText = (TextView) getView().findViewById(R.id.midsumText);
+                midText.setText(this.data.getMidSum());
+                TextView allText = (TextView) getView().findViewById(R.id.allsumText);
+                allText.setText(this.data.getAllSum());
+            }
         }
     }
 
@@ -246,10 +259,20 @@ public class WalletListFragment extends android.support.v4.app.Fragment {
         registerForContextMenu(walletListView);
         adapter = new WalletListItemAdapter(getContext());
         walletListView.setAdapter(adapter);
+        TextView midText = (TextView) rootView.findViewById(R.id.midsumText);
+        midText.setText(this.data.getMidSum());
+        TextView allText = (TextView) rootView.findViewById(R.id.allsumText);
+        allText.setText(this.data.getAllSum());
         return rootView;
     }
 
     public void notifyFragment() {
         adapter.notifyDataSetChanged();
+        if (getView() != null) {
+            TextView midText = (TextView) getView().findViewById(R.id.midsumText);
+            midText.setText(this.data.getMidSum());
+            TextView allText = (TextView) getView().findViewById(R.id.allsumText);
+            allText.setText(this.data.getAllSum());
+        }
     }
 }

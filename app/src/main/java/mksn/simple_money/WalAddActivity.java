@@ -1,4 +1,4 @@
-package mksn.simphony_v2;
+package mksn.simple_money;
 
 import android.content.Intent;
 import android.graphics.BitmapFactory;
@@ -22,7 +22,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import mksn.simphony_v2.logics.AllData;
+import java.util.Locale;
+
+import mksn.simple_money.logics.AllData;
 
 public class WalAddActivity extends AppCompatActivity {
 
@@ -36,7 +38,6 @@ public class WalAddActivity extends AppCompatActivity {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar_add);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         final int requestCode = getIntent().getIntExtra("requestCode", AllData.ADD_WALLET_REQUEST);
 
         setTitle(getString(R.string.add_wal_activity_label));
@@ -46,7 +47,7 @@ public class WalAddActivity extends AppCompatActivity {
             EditText nameText = (EditText) findViewById(R.id.wallet_name_field);
             EditText sumText = (EditText) findViewById(R.id.remainder_field);
             nameText.setText(getIntent().getStringExtra(AllData.TAG_WAL_NAME));
-            sumText.setText(String.valueOf(getIntent().getIntExtra(AllData.TAG_SUM, 0)));
+            sumText.setText(String.format(Locale.US, "%.2f", getIntent().getIntExtra(AllData.TAG_SUM, 0) / 10000.0));
         } else {
             setTitle(getString(R.string.add_wal_activity_label));
         }
@@ -140,7 +141,7 @@ public class WalAddActivity extends AppCompatActivity {
 
                 return;
             }
-            int sum = Integer.parseInt(sumText.getText().toString());
+            int sum = (int) (Double.parseDouble(sumText.getText().toString()) * 10000);
             Intent intent = new Intent();
             if (((RadioButton) findViewById(R.id.type_cash_rbtn)).isChecked()) {
                 intent.putExtra(AllData.TAG_TYPE, AllData.TYPE_ICON_CASH);

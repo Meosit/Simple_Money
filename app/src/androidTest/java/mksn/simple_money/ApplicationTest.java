@@ -1,4 +1,4 @@
-package mksn.simphony_v2;
+package mksn.simple_money;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

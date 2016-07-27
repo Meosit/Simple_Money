@@ -1,4 +1,4 @@
-package mksn.simphony_v2.logics;
+package mksn.simple_money.logics;
 
 /**
  * Created by Mike on 11.11.2015.

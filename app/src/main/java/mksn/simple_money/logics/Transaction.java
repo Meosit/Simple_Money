@@ -1,4 +1,6 @@
-package mksn.simphony_v2.logics;
+package mksn.simple_money.logics;
+
+import java.util.Locale;
 
 /**
  * Created by Mike on 04.11.2015.
@@ -80,12 +82,13 @@ public class Transaction {
     }
 
     public String getFormattedSum() {
-        StringBuilder sb_sum = new StringBuilder(Integer.toString(sum));
-        if (sb_sum.length() > 3) {
+        Double byn_sum = sum/ 10000.0;
+        StringBuilder sb_sum = new StringBuilder(String.format(Locale.US, "%.2f", byn_sum));
+        /*if (sb_sum.length() > 3) {
             for (int i = sb_sum.length() - 3; i > 0; i -= 3) {
                 sb_sum.insert(i, " ");
             }
-        }
+        }*/
         switch (currency) {
             case AllData.CURR_BYR:
                 sb_sum.append(" Руб");

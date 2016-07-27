@@ -1,4 +1,4 @@
-package mksn.simphony_v2.adapters;
+package mksn.simple_money.adapters;
 
 import android.content.Context;
 import android.graphics.BitmapFactory;
@@ -9,9 +9,9 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import mksn.simphony_v2.R;
-import mksn.simphony_v2.logics.AllData;
-import mksn.simphony_v2.logics.Transaction;
+import mksn.simple_money.R;
+import mksn.simple_money.logics.AllData;
+import mksn.simple_money.logics.Transaction;
 
 /**
  * Created by Mike on 06.11.2015.
@@ -22,7 +22,7 @@ public class TransactListItemAdapter extends BaseExpandableListAdapter {
     private AllData data = AllData.getInstance();
     private Context mContext;
 
-    public TransactListItemAdapter(Context context){
+    public TransactListItemAdapter(Context context) {
         mContext = context;
     }
 
@@ -33,7 +33,11 @@ public class TransactListItemAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return data.getInDayActsCount(groupPosition);
+        if (data.getInDayActsCount(groupPosition) == 1) {
+            return 1;
+        } else {
+            return data.getInDayActsCount(groupPosition) + 1;
+        }
     }
 
     @Override
@@ -79,27 +83,34 @@ public class TransactListItemAdapter extends BaseExpandableListAdapter {
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild,
                              View convertView, ViewGroup parent) {
-        if (convertView == null) {
-            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        if ((getChildrenCount(groupPosition) == 1) || !isLastChild) {
             convertView = inflater.inflate(R.layout.transact_row, null);
-        }
-        convertView.setLongClickable(true);
+            convertView.setLongClickable(true);
 
-        TextView walletText = (TextView) convertView.findViewById(R.id.wallet_field);
-        TextView categoryText = (TextView) convertView.findViewById(R.id.category_field);
-        TextView sumText = (TextView) convertView.findViewById(R.id.sum_field);
-        ImageView icon = (ImageView) convertView.findViewById(R.id.icon_field);
+            TextView walletText = (TextView) convertView.findViewById(R.id.wallet_field);
+            TextView categoryText = (TextView) convertView.findViewById(R.id.category_field);
+            TextView sumText = (TextView) convertView.findViewById(R.id.sum_field);
+            ImageView icon = (ImageView) convertView.findViewById(R.id.icon_field);
 
-        walletText.setText(((Transaction)getChild(groupPosition, childPosition)).getCategory().getName());
-        categoryText.setText(((Transaction)getChild(groupPosition, childPosition)).getWallet().getName());
-        sumText.setText(((Transaction)getChild(groupPosition, childPosition)).getFormattedSum());
-        if (((Transaction)getChild(groupPosition, childPosition)).getType() == AllData.ACT_INCOME) {
-            icon.setImageBitmap(BitmapFactory.decodeResource(parent.getResources(), R.drawable.ic_income2));
+            walletText.setText(((Transaction) getChild(groupPosition, childPosition)).getCategory().getName());
+            categoryText.setText(((Transaction) getChild(groupPosition, childPosition)).getWallet().getName());
+            sumText.setText(((Transaction) getChild(groupPosition, childPosition)).getFormattedSum());
+            if (((Transaction) getChild(groupPosition, childPosition)).getType() == AllData.ACT_INCOME) {
+                icon.setImageBitmap(BitmapFactory.decodeResource(parent.getResources(), R.drawable.ic_income2));
+            } else {
+                icon.setImageBitmap(BitmapFactory.decodeResource(parent.getResources(), R.drawable.ic_outgo2));
+            }
+
+            return convertView;
         } else {
-            icon.setImageBitmap(BitmapFactory.decodeResource(parent.getResources(), R.drawable.ic_outgo2));
-        }
+            convertView = inflater.inflate(R.layout.day_footer, null);
+            convertView.setLongClickable(false);
 
-        return convertView;
+            TextView dailySum = (TextView) convertView.findViewById(R.id.dailySumText);
+            dailySum.setText("Всего: " + data.getSumInDay(groupPosition));
+            return convertView;
+        }
     }
 
     @Override

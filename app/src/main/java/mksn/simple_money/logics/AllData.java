@@ -1,8 +1,10 @@
-package mksn.simphony_v2.logics;
+package mksn.simple_money.logics;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Locale;
 import java.util.Objects;
 
 /**
@@ -87,6 +89,8 @@ public class AllData {
         indexesFirstActsInDay = initIndexesFirstActsInDay();
     }
 
+
+
     public int getIndexFirstActInDay(int dayIndex) {
         return indexesFirstActsInDay[dayIndex];
     }
@@ -159,7 +163,7 @@ public class AllData {
     }
 
     public String[] getCurrenciesArr() {
-        return new String[]{CURR_BYR, CURR_USD};
+        return new String[]{"BYN"};
     }
 
     public int indexOfWallet(Wallet wallet) {
@@ -370,6 +374,41 @@ public class AllData {
             }
             return String.format("%.1f", result) + "%";
         }
+    }
+
+    public String getMidSum() {
+        double midsum = 0;
+        Calendar calendar = Calendar.getInstance();
+        for (Wallet wallet: wallets) {
+            midsum += wallet.getSumRemainder();
+        }
+        midsum /= (calendar.getActualMaximum(Calendar.DAY_OF_MONTH) - calendar.get(Calendar.DAY_OF_MONTH) + 1);
+        midsum /= 10000;
+        return String.format(Locale.US,"%.2f", midsum) + " BYN";
+    }
+
+    public String getAllSum() {
+        double allsum = 0;
+        for (Wallet wallet: wallets) {
+            allsum += wallet.getSumRemainder();
+        }
+        allsum /= 10000;
+        return String.format(Locale.US,"%.2f",allsum) + " BYN";
+    }
+
+    public String getSumInDay(int dayIndex) {
+        ArrayList<Transaction> day = getDay(dayIndex);
+        double sumInDay = 0;
+        for (Transaction transaction: day) {
+            if(transaction.getType() == ACT_INCOME) {
+                sumInDay += transaction.getSum();
+            } else {
+                sumInDay -= transaction.getSum();
+            }
+
+        }
+        sumInDay /= 10000;
+        return (sumInDay >= 0)?("+" + String.format(Locale.US, "%.2f", sumInDay)):String.format(Locale.US, "%.2f", sumInDay);
     }
 
 }

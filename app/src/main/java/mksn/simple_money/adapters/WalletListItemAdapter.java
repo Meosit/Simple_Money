@@ -1,4 +1,4 @@
-package mksn.simphony_v2.adapters;
+package mksn.simple_money.adapters;
 
 import android.content.Context;
 import android.graphics.BitmapFactory;
@@ -9,8 +9,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import mksn.simphony_v2.R;
-import mksn.simphony_v2.logics.AllData;
+import mksn.simple_money.R;
+import mksn.simple_money.logics.AllData;
 
 /**
  * Created by Mike on 06.11.2015.

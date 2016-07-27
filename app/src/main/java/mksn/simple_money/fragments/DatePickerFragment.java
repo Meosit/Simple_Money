@@ -1,4 +1,4 @@
-package mksn.simphony_v2.fragments;
+package mksn.simple_money.fragments;
 
 /**
  * Created by Mike on 11.11.2015.
@@ -11,7 +11,7 @@ import android.support.v4.app.DialogFragment;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
-import mksn.simphony_v2.R;
+import mksn.simple_money.R;
 
 /**
  * Created by jahid on 12/10/15.

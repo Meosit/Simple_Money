@@ -9,7 +9,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:background="#ffffff"
-    tools:context="mksn.simphony_v2.WalAddActivity">
+    tools:context="mksn.simple_money.WalAddActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar_add"

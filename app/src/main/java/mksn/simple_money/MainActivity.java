@@ -1,4 +1,4 @@
-package mksn.simphony_v2;
+package mksn.simple_money;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -22,14 +22,14 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
-import mksn.simphony_v2.fragments.CategoryListFragment;
-import mksn.simphony_v2.fragments.TransactListFragment;
-import mksn.simphony_v2.fragments.WalletListFragment;
-import mksn.simphony_v2.logics.AllData;
-import mksn.simphony_v2.logics.Category;
-import mksn.simphony_v2.logics.DataBaseHelper;
-import mksn.simphony_v2.logics.Transaction;
-import mksn.simphony_v2.logics.Wallet;
+import mksn.simple_money.fragments.CategoryListFragment;
+import mksn.simple_money.fragments.TransactListFragment;
+import mksn.simple_money.fragments.WalletListFragment;
+import mksn.simple_money.logics.AllData;
+import mksn.simple_money.logics.Category;
+import mksn.simple_money.logics.DataBaseHelper;
+import mksn.simple_money.logics.Transaction;
+import mksn.simple_money.logics.Wallet;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -95,7 +95,6 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case 2:
                         addNewCategory();
-
                 }
             }
         });
@@ -213,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
                     data.addCategory(addedCategory);
                     mSectionsPagerAdapter.notifyDataSetChanged();
                     updatingCatFragment.notifyFragment();
-                    Snackbar.make(findViewById(R.id.fab), "Новая категория добавлена.", Snackbar.LENGTH_LONG)
+                    Snackbar.make(findViewById(R.id.fab), "Новая категория добавлена.", Snackbar.LENGTH_SHORT)
                             .setAction("Отмена", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -231,7 +230,7 @@ public class MainActivity extends AppCompatActivity {
                     data.addCategory(addedCategory);
                     mSectionsPagerAdapter.notifyDataSetChanged();
                     updatingCatFragment.notifyFragment();
-                    Snackbar.make(findViewById(R.id.fab), "Новая категория добавлена.", Snackbar.LENGTH_LONG)
+                    Snackbar.make(findViewById(R.id.fab), "Новая категория добавлена.", Snackbar.LENGTH_SHORT)
                             .setAction("Отмена", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {

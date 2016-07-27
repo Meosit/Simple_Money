@@ -1,4 +1,4 @@
-package mksn.simphony_v2.adapters;
+package mksn.simple_money.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,8 +7,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import mksn.simphony_v2.R;
-import mksn.simphony_v2.logics.AllData;
+import java.util.Locale;
+
+import mksn.simple_money.R;
+import mksn.simple_money.logics.AllData;
 
 /**
  * Created by Mike on 06.11.2015.
@@ -65,7 +67,7 @@ public class CategoryListItemAdapter extends BaseAdapter {
 
         categoryName.setText(data.getCategory(position, type).getName());
         countText.setText("(" + data.getCategory(position, type).getActCount() + ")");
-        percentText.setText(data.getCategoryPercent(position, type));
+        percentText.setText(String.format(Locale.US, "%.2f", data.getCategory(position,type).getActSum() / 10000.0) + " (" +data.getCategoryPercent(position, type) + ")");
         return convertView;
     }
 }

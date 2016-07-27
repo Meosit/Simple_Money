@@ -1,4 +1,4 @@
-package mksn.simphony_v2.logics;
+package mksn.simple_money.logics;
 
 import android.content.ContentValues;
 import android.content.Context;

@@ -11,7 +11,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/walletListView"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/textView3" />
+        android:layout_below="@+id/textView3"
+        android:layout_above="@+id/textView8" />
 
     <TextView
         android:layout_width="fill_parent"
@@ -20,5 +21,53 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:background="@color/colorAccent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="299999 BYN"
+        android:id="@+id/midsumText"
+        android:textColor="#1ba671"
+        android:textSize="19dp"
+        android:layout_marginLeft="7dp"
+        android:layout_marginBottom="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@+id/textView9" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="299999 BYN"
+        android:id="@+id/allsumText"
+        android:textColor="#537ef6"
+        android:textSize="19dp"
+        android:layout_alignTop="@+id/textView8"
+        android:layout_alignStart="@+id/midsumText" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Всего:"
+        android:id="@+id/textView8"
+        android:textColor="#537ef6"
+        android:textSize="19dp"
+        android:layout_above="@+id/textView9"
+        android:layout_alignStart="@+id/textView9" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="В день:"
+        android:id="@+id/textView9"
+        android:textColor="#1ba671"
+        android:textSize="19dp"
+        android:layout_marginLeft="7dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="10dp" />
 
 </RelativeLayout>

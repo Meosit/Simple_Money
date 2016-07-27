@@ -1,4 +1,4 @@
-package mksn.simphony_v2;
+package mksn.simple_money;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -25,12 +25,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Calendar;
+import java.util.Locale;
 
-import mksn.simphony_v2.fragments.DatePickerFragment;
-import mksn.simphony_v2.logics.AllData;
-import mksn.simphony_v2.logics.Category;
-import mksn.simphony_v2.logics.DataBaseHelper;
-import mksn.simphony_v2.logics.Wallet;
+import mksn.simple_money.fragments.DatePickerFragment;
+import mksn.simple_money.logics.AllData;
+import mksn.simple_money.logics.Category;
+import mksn.simple_money.logics.DataBaseHelper;
+import mksn.simple_money.logics.Wallet;
 
 
 public class ActAddActivity extends AppCompatActivity {
@@ -96,7 +97,7 @@ public class ActAddActivity extends AppCompatActivity {
                                        int position, long id) {
                 currency = data.getWallet(position).getCurrency();
                 TextView curr_label = (TextView) findViewById(R.id.currency_label);
-                curr_label.setText(currency);
+                curr_label.setText("BYN");
                 wallet_index = position;
             }
 
@@ -177,14 +178,14 @@ public class ActAddActivity extends AppCompatActivity {
             wallet_spinner.setSelection(getIntent().getIntExtra(AllData.TAG_WAL_ID, 0));
             wallet_index = getIntent().getIntExtra(AllData.TAG_WAL_ID, 0);
             category_index = getIntent().getIntExtra(AllData.TAG_CAT_ID, 0);
-            ((EditText) findViewById(R.id.sumAddText)).setText(String.valueOf(getIntent().getIntExtra(AllData.TAG_SUM, 0)));
+            ((EditText) findViewById(R.id.sumAddText)).setText(String.format(Locale.US, "%.2f", getIntent().getIntExtra(AllData.TAG_SUM, 0) / 10000.0));
             ((Button) findViewById(R.id.act_add_btn)).setText("Изменить");
             if (getIntent().getIntExtra(AllData.TAG_ACT, AllData.ACT_OUTGO) == AllData.ACT_INCOME) {
                 ((RadioButton) findViewById(R.id.income_rbtn)).setChecked(true);
             }
         } else {
             setTitle(getString(R.string.add_act_activity_label));
-            curr_label.setText(data.getWallet(0).getCurrency());
+            curr_label.setText("BYN");
             dateText.setText(String.valueOf(c.get(Calendar.DAY_OF_MONTH)) + "." +
                     String.valueOf(c.get(Calendar.MONTH) + 1) + "." + String.valueOf(c.get(Calendar.YEAR)));
         }
@@ -194,7 +195,7 @@ public class ActAddActivity extends AppCompatActivity {
         EditText sumText = (EditText) findViewById(R.id.sumAddText);
         date = dateText.getText().toString();
         try {
-            int sum = Integer.parseInt(sumText.getText().toString());
+            int sum = (int) (Double.parseDouble(sumText.getText().toString()) * 10000);
             Intent intent = new Intent();
             int act_type;
             if (((RadioButton) findViewById(R.id.outgo_rbtn)).isChecked()) {
