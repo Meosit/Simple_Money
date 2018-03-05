@@ -188,7 +188,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             do {
                 Wallet wallet = new Wallet(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2),
                         Integer.parseInt(cursor.getString(3)), Integer.parseInt(cursor.getString(4)));
-                wallets.add(0, wallet);
+                wallets.add(wallet);
             } while (cursor.moveToNext());
         }
         cursor.close();

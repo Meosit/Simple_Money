@@ -7,6 +7,8 @@ import java.util.Comparator;
 import java.util.Locale;
 import java.util.Objects;
 
+import static java.util.Calendar.DAY_OF_MONTH;
+
 /**
  * Created by Mike on 10.11.2015
  */
@@ -48,6 +50,7 @@ public class AllData {
     private int dayCount;
 
     private static AllData instance = new AllData();
+
     private AllData() {
     }
 
@@ -88,7 +91,6 @@ public class AllData {
     private void updateIndexesFirstActsInDay() {
         indexesFirstActsInDay = initIndexesFirstActsInDay();
     }
-
 
 
     public int getIndexFirstActInDay(int dayIndex) {
@@ -376,31 +378,48 @@ public class AllData {
         }
     }
 
+    private static final int[] SALARY_DAYS = {7};
+
     public String getMidSum() {
         double midsum = 0;
         Calendar calendar = Calendar.getInstance();
-        for (Wallet wallet: wallets) {
-            midsum += wallet.getSumRemainder();
+        for (Wallet wallet : wallets) {
+            if (!wallet.getName().startsWith("®") && !wallet.getName().startsWith("Reserved"))
+                midsum += wallet.getSumRemainder();
         }
-        midsum /= (calendar.getActualMaximum(Calendar.DAY_OF_MONTH) - calendar.get(Calendar.DAY_OF_MONTH) + 1);
+
+        if (dayOfMonth(calendar) < SALARY_DAYS[0]) {
+            midsum /= SALARY_DAYS[0] - dayOfMonth(calendar);
+        } else {
+            midsum /= (daysInMonth(calendar) - dayOfMonth(calendar) + SALARY_DAYS[0]);
+        }
         midsum /= 10000;
-        return String.format(Locale.US,"%.2f", midsum) + " BYN";
+        return String.format(Locale.US, "%.2f", midsum) + " BYN";
+    }
+
+    private static int daysInMonth(Calendar calendar) {
+        return calendar.getActualMaximum(DAY_OF_MONTH);
+    }
+
+    private static int dayOfMonth(Calendar calendar) {
+        return calendar.get(DAY_OF_MONTH);
     }
 
     public String getAllSum() {
         double allsum = 0;
-        for (Wallet wallet: wallets) {
-            allsum += wallet.getSumRemainder();
+        for (Wallet wallet : wallets) {
+            if (!wallet.getName().startsWith("®") && !wallet.getName().startsWith("Reserved"))
+                allsum += wallet.getSumRemainder();
         }
         allsum /= 10000;
-        return String.format(Locale.US,"%.2f",allsum) + " BYN";
+        return String.format(Locale.US, "%.2f", allsum) + " BYN";
     }
 
     public String getSumInDay(int dayIndex) {
         ArrayList<Transaction> day = getDay(dayIndex);
         double sumInDay = 0;
-        for (Transaction transaction: day) {
-            if(transaction.getType() == ACT_INCOME) {
+        for (Transaction transaction : day) {
+            if (transaction.getType() == ACT_INCOME) {
                 sumInDay += transaction.getSum();
             } else {
                 sumInDay -= transaction.getSum();
@@ -408,7 +427,7 @@ public class AllData {
 
         }
         sumInDay /= 10000;
-        return (sumInDay >= 0)?("+" + String.format(Locale.US, "%.2f", sumInDay)):String.format(Locale.US, "%.2f", sumInDay);
+        return (sumInDay >= 0) ? ("+" + String.format(Locale.US, "%.2f Руб", sumInDay)) : String.format(Locale.US, "%.2f Руб", sumInDay);
     }
 
 }

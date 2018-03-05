@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
                     updatingActFragment.addTransaction(addedTransaction);
                     updatingWalFragment.notifyFragment();
                     mSectionsPagerAdapter.notifyDataSetChanged();
-                    Snackbar.make(findViewById(R.id.fab), "Новая транзакция добавлена.", Snackbar.LENGTH_LONG)
+                    Snackbar.make(findViewById(R.id.fab), "Новая транзакция добавлена.", Snackbar.LENGTH_SHORT)
                             .setAction("Отмена", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -155,16 +155,7 @@ public class MainActivity extends AppCompatActivity {
                         updatingWalFragment.notifyFragment();
                     }
                     mSectionsPagerAdapter.notifyDataSetChanged();
-                    Snackbar.make(findViewById(R.id.fab), "Новый счёт добавлен.", Snackbar.LENGTH_LONG)
-                            .setAction("Отмена", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    mDataBase.deleteWallet(getData().getWallet(0).getId());
-                                    getData().removeWallet(0);
-                                    updatingWalFragment.notifyFragment();
-                                    mSectionsPagerAdapter.notifyDataSetChanged();
-                                }
-                            }).show();
+                    Snackbar.make(findViewById(R.id.fab), "Новый счёт добавлен.", Snackbar.LENGTH_SHORT).show();
                     break;
                 case AllData.EDIT_WALLET_REQUEST:
                     updatingWalFragment.onActivityResult(requestCode, resultCode, data);

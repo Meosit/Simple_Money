@@ -193,8 +193,9 @@ public class WalletListFragment extends android.support.v4.app.Fragment {
                                 Wallet secondEditedWallet = data.getWallet(wallet_index[0]);
                                 if (pos != wallet_index[0]) {
                                     if (firstEditedWallet.getCurrency().equals(secondEditedWallet.getCurrency())) {
-                                        firstEditedWallet.deductRemainder(Integer.parseInt(mid_sum.getText().toString()));
-                                        secondEditedWallet.addRemainder(Integer.parseInt(mid_sum.getText().toString()));
+                                        int remittanceSum = (int) (Double.parseDouble(mid_sum.getText().toString()) * 10_000);
+                                        firstEditedWallet.deductRemainder(remittanceSum);
+                                        secondEditedWallet.addRemainder(remittanceSum);
                                         mDataBase.updateWallet(firstEditedWallet.getId(),
                                                 firstEditedWallet.getName(),
                                                 firstEditedWallet.getCurrency(),
@@ -209,6 +210,12 @@ public class WalletListFragment extends android.support.v4.app.Fragment {
                                     } else {
                                         Toast notCurrEqualMessage = Toast.makeText(getContext(), "Нельзя переместить сумму на счёт с другой валютой", Toast.LENGTH_LONG);
                                         notCurrEqualMessage.show();
+                                    }
+                                    if (getView() != null) {
+                                        TextView midText = (TextView) getView().findViewById(R.id.midsumText);
+                                        midText.setText(WalletListFragment.this.data.getMidSum());
+                                        TextView allText = (TextView) getView().findViewById(R.id.allsumText);
+                                        allText.setText(WalletListFragment.this.data.getAllSum());
                                     }
                                 }
                             }

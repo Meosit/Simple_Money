@@ -2,6 +2,7 @@ package mksn.simple_money.adapters;
 
 import android.content.Context;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -98,8 +99,10 @@ public class TransactListItemAdapter extends BaseExpandableListAdapter {
             sumText.setText(((Transaction) getChild(groupPosition, childPosition)).getFormattedSum());
             if (((Transaction) getChild(groupPosition, childPosition)).getType() == AllData.ACT_INCOME) {
                 icon.setImageBitmap(BitmapFactory.decodeResource(parent.getResources(), R.drawable.ic_income2));
+                sumText.setTextColor(Color.parseColor("#1ba671"));
             } else {
                 icon.setImageBitmap(BitmapFactory.decodeResource(parent.getResources(), R.drawable.ic_outgo2));
+                sumText.setTextColor(Color.parseColor("#FB3D3D"));
             }
 
             return convertView;
@@ -108,7 +111,13 @@ public class TransactListItemAdapter extends BaseExpandableListAdapter {
             convertView.setLongClickable(false);
 
             TextView dailySum = (TextView) convertView.findViewById(R.id.dailySumText);
-            dailySum.setText("Всего: " + data.getSumInDay(groupPosition));
+            String sumInDay = data.getSumInDay(groupPosition);
+            if (sumInDay.startsWith("-")) {
+                dailySum.setTextColor(Color.parseColor("#FB3D3D"));
+            } else {
+                dailySum.setTextColor(Color.parseColor("#1ba671"));
+            }
+            dailySum.setText("Всего: " + sumInDay);
             return convertView;
         }
     }

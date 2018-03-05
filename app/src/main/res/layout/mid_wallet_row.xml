@@ -48,7 +48,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="BYR"
+        android:text="BYN"
         android:id="@+id/mid_wallet_curr"
         android:textColor="#000000"
         android:textSize="20dp"
