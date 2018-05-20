@@ -378,7 +378,7 @@ public class AllData {
         }
     }
 
-    private static final int[] SALARY_DAYS = {7};
+    private static final int[] salaryDay = {7};
 
     public String getMidSum() {
         double midsum = 0;
@@ -388,10 +388,10 @@ public class AllData {
                 midsum += wallet.getSumRemainder();
         }
 
-        if (dayOfMonth(calendar) < SALARY_DAYS[0]) {
-            midsum /= SALARY_DAYS[0] - dayOfMonth(calendar);
+        if (dayOfMonth(calendar) < salaryDay[0]) {
+            midsum /= salaryDay[0] - dayOfMonth(calendar);
         } else {
-            midsum /= (daysInMonth(calendar) - dayOfMonth(calendar) + SALARY_DAYS[0]);
+            midsum /= (daysInMonth(calendar) - dayOfMonth(calendar) + salaryDay[0]);
         }
         midsum /= 10000;
         return String.format(Locale.US, "%.2f", midsum) + " BYN";
